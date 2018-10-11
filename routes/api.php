@@ -16,3 +16,17 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group([
+   'namespace' => 'Api',
+    'as' => 'api'
+], function () {
+    Route::get('/products', [
+        'as' => '.products',
+        'uses' => 'ProductController@index'
+    ]);
+
+    Route::get('/tagging/major-themes', function () {
+        return response()->json(['dsad' => '1']);
+    });
+});

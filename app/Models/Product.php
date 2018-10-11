@@ -12,7 +12,10 @@ use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
  * Class Product
+ *
  * @package App\Models
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
+ * @mixin \Eloquent
  */
 class Product extends EloquentModel implements HasMedia
 {
