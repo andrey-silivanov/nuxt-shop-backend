@@ -16,4 +16,6 @@ Route::get('/', [
 ]);
 Auth::routes(['']);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function () {
+    return \Illuminate\Support\Facades\File::get(public_path() . '/admin_panel/index.html');
+})->name('home');
