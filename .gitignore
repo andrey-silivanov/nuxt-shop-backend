@@ -13,6 +13,7 @@
 /public/media
 /public/images
 /public/libs
+/public/admin_panel
 /storage/*.key
 
 
