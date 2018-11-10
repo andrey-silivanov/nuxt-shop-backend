@@ -19,8 +19,10 @@ import Chartist from 'chartist'
 
 // configure router
 const router = new VueRouter({
-  routes, // short for routes: routes
-  linkExactActiveClass: 'nav-item active'
+    mode: 'history',
+    base: 'admin',
+    routes, // short for routes: routes
+    linkExactActiveClass: 'nav-item active'
 })
 
 Vue.use(VueRouter)
@@ -31,17 +33,17 @@ Vue.use(Notifications)
 
 // global library setup
 Object.defineProperty(Vue.prototype, '$Chartist', {
-  get () {
-    return this.$root.Chartist
-  }
+    get() {
+        return this.$root.Chartist
+    }
 })
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  render: h => h(App),
-  router,
-  data: {
-    Chartist: Chartist
-  }
+    el: '#app',
+    render: h => h(App),
+    router,
+    data: {
+        Chartist: Chartist
+    }
 })

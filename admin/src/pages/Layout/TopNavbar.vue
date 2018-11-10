@@ -12,11 +12,11 @@
         </md-button>
 
         <div class="md-collapse">
-          <div class="md-autocomplete">
+          <!--<div class="md-autocomplete">
             <md-autocomplete class="search" v-model="selectedEmployee" :md-options="employees">
               <label>Search...</label>
             </md-autocomplete>
-          </div>
+          </div>-->
           <md-list>
             <md-list-item to="/">
               <i class="material-icons">dashboard</i>

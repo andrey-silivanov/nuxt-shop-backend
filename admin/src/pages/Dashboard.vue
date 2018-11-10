@@ -150,7 +150,11 @@
             <p class="category">New employees on 15th September, 2016</p>
           </md-card-header>
           <md-card-content>
-            <ordered-table table-header-color="orange"></ordered-table>
+            <ordered-table
+                    table-header-color="green"
+                    :items="users"
+                    :table-fields="tableField"
+            />
           </md-card-content>
         </md-card>
       </div>
@@ -272,7 +276,59 @@ export default{
             }
           }]
         ]
-      }
+      },
+        users: [
+            {
+                id: 1,
+                name: 'Dakota Rice',
+                salary: '$36,738',
+                country: 'Niger',
+                city: 'Oud-Turnhout'
+            },
+            {
+                id: 2,
+                name: 'Minerva Hooper',
+                salary: '$23,738',
+                country: 'Curaçao',
+                city: 'Sinaai-Waas'
+            },
+            {
+                id: 3,
+                name: 'Sage Rodriguez',
+                salary: '$56,142',
+                country: 'Netherlands',
+                city: 'Overland Park'
+            },
+            {
+                id: 4,
+                name: 'Philip Chaney',
+                salary: '$38,735',
+                country: 'Korea, South',
+                city: 'Gloucester'
+            }
+        ],
+        tableField: [
+            {
+                name: 'Id',
+                key: 'id'
+            },
+            {
+                name: 'Name',
+                key: 'name'
+            },
+            {
+                name: 'Salary',
+                key: 'salary'
+            },
+            {
+                name: 'Country',
+                key: 'country'
+            },
+            {
+                name: 'City',
+                key: 'city'
+            }
+        ]
     }
   }
 }
