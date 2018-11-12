@@ -1,5 +1,5 @@
 <template>
-    <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50" id="login-page">
+    <div class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-40" id="login-page">
         <md-card>
             <md-card-header data-background-color="green">
                 <h4 class="title">Login</h4>
