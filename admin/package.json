@@ -9,9 +9,12 @@
     "dev": "npm run serve"
   },
   "dependencies": {
+    "@websanova/vue-auth": "^2.21.14-beta",
+    "axios": "^0.18.0",
     "chartist": "0.11.0",
     "google-maps": "3.2.1",
     "vue": "2.5.16",
+    "vue-axios": "^2.1.4",
     "vue-clickaway": "2.2.2",
     "vue-material": "1.0.0-beta-8",
     "vue-router": "3.0.1",

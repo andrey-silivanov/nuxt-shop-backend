@@ -5,7 +5,7 @@ import VueRouter from 'vue-router'
 import App from './App'
 
 // router setup
-import routes from './routes/routes'
+import router from './routes/routes'
 
 // Plugins
 import GlobalComponents from './globalComponents'
@@ -16,16 +16,29 @@ import Notifications from './components/NotificationPlugin/index'
 import MaterialDashboard from './material-dashboard'
 
 import Chartist from 'chartist'
+import axios from 'axios';
+import VueAxios from 'vue-axios';
 
+Vue.use(VueAxios, axios);
+axios.defaults.baseURL = 'http://nuxt-shop-back/api/admin';
 // configure router
-const router = new VueRouter({
-    mode: 'history',
-    base: 'admin',
-    routes, // short for routes: routes
-    linkExactActiveClass: 'nav-item active'
+
+
+
+//Vue.use(VueRouter)
+
+Vue.router = router;
+
+Vue.use(require('@websanova/vue-auth'), {
+    auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
+    http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
+    router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
+    authRedirect: '/auth/login',
+    forbiddenRedirect: '/user',
+    rolesVar: 'role'
 })
 
-Vue.use(VueRouter)
+
 Vue.use(MaterialDashboard)
 Vue.use(GlobalComponents)
 Vue.use(GlobalDirectives)

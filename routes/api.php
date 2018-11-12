@@ -30,3 +30,8 @@ Route::group([
         return response()->json(['dsad' => '1']);
     });
 });
+
+
+Route::post('/admin/auth/login', function () {
+   return response()->json(['t' => 'hello']);
+});

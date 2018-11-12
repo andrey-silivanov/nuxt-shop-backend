@@ -36,16 +36,14 @@
     } from 'vuelidate/lib/validators'
 
     export default {
-        name: 'FormValidation',
+        name: 'Login',
         mixins: [validationMixin],
         data: () => ({
             form: {
                 email: null,
                 password: null
             },
-            userSaved: false,
             sending: false,
-            lastUser: null
         }),
         validations: {
             form: {
@@ -70,11 +68,8 @@
             },
             clearForm () {
                 this.$v.$reset()
-                this.form.firstName = null
-                this.form.lastName = null
-                this.form.age = null
-                this.form.gender = null
-                this.form.email = null
+                this.form.email = null;
+                this.form.password = null;
             },
             saveUser () {
                 this.sending = true
@@ -82,7 +77,6 @@
                 // Instead of this timeout, here you can call your API
                 window.setTimeout(() => {
                     this.lastUser = `${this.form.firstName} ${this.form.lastName}`
-                    this.userSaved = true
                     this.sending = false
                     this.clearForm()
                 }, 1500)
@@ -91,9 +85,44 @@
                 this.$v.$touch()
 
                 if (!this.$v.$invalid) {
-                    this.saveUser()
+                    this.login();
                 }
+            },
+            login() {
+                this.sending = true;
+                this.errors = {}
+                this.$auth.login({
+                    params: {
+                        email: this.email,
+                        password: this.password
+                    },
+                    success () {
+                        /*this.$vs.notify({
+                            time: 1500,
+                            title:'Success',
+                            text: 'Welcome',
+                            color: 'success'
+                        });*/
+                        let redirectPath = 'user';
+                        this.sending = false
+                      //  if (this.$auth.check('manager')) redirectPath = 'admin';
+                       // setTimeout(() => this.$router.push(redirectPath), 1500); /// redirect
+                    },
+                    error(err) {
+                        if (err.response.data.code == 422) {
+                            this.errors = err.response.data.errors;
+                        } else {
+                            this.openAlert()
+                        }
+                        this.sending = false
+                    },
+                    rememberMe: true,
+                    fetchUser: true
+                });
+            },
+            openAlert(){
+                this.activeAlert = true;
             }
-        }
+        },
     }
 </script>
