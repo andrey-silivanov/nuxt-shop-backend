@@ -32,6 +32,3 @@ Route::group([
 });
 
 
-Route::post('/admin/auth/login', function () {
-   return response()->json(['t' => 'hello']);
-});
