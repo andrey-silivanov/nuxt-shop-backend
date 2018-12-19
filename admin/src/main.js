@@ -20,21 +20,37 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 
 Vue.use(VueAxios, axios);
-axios.defaults.baseURL = 'http://nuxt-shop-back/api/admin';
-// configure router
-
-
+Vue.axios.defaults.baseURL = 'http://nuxt-shop-back/api/admin';
 
 //Vue.use(VueRouter)
 
 Vue.router = router;
 
 Vue.use(require('@websanova/vue-auth'), {
-    auth: require('@websanova/vue-auth/drivers/auth/bearer.js'),
+    auth: {
+        request: function (req, token) {
+            this.options.http._setHeaders.call(this, req, {Authorization: 'Bearer ' + token});
+        },
+
+        response: function (res) {
+            let token = res.data.access_token;
+
+            if (token) {
+                token = token.split(/Bearer\:?\s?/i);
+
+                return token[token.length > 1 ? 1 : 0].trim();
+            }
+        }
+    },
     http: require('@websanova/vue-auth/drivers/http/axios.1.x.js'),
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
     authRedirect: '/auth/login',
-    forbiddenRedirect: '/user',
+    parseUserData: function (response) {
+        console.log('found user')
+        console.log(response.data)
+        return response.data
+    },
+    forbiddenRedirect: {path: '/403'},
     rolesVar: 'role'
 })
 
@@ -51,6 +67,7 @@ Object.defineProperty(Vue.prototype, '$Chartist', {
     }
 })
 
+Vue.component('ordered-table', require('@/components'));
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
@@ -60,3 +77,20 @@ new Vue({
         Chartist: Chartist
     }
 })
+
+import Echo from 'laravel-echo'
+window.io = require('socket.io-client');
+
+// window.Pusher = require('pusher-js');
+
+// window.Echo = new Echo({
+//     broadcaster: 'pusher',
+//     key: process.env.MIX_PUSHER_APP_KEY,
+//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+//     encrypted: true
+// });
+
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host: `${window.location.hostname}:6001`,
+});

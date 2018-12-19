@@ -242,6 +242,12 @@
         @include shadow-big-color($brand-danger);
     }
 
+    [data-background-color="white"],
+    .md-tabs.md-danger .md-tabs-navigation{
+        background: linear-gradient(60deg, #fff, #fff);
+        @include shadow-big-color($brand-success);
+
+    }
     [data-background-color]{
         color: $white-color;
 
@@ -249,6 +255,10 @@
             color: $white-color;
         }
     }
+    [data-background-color="white"] {
+        color: $black-color;
+    }
+
 }
 
 .md-card-stats{
@@ -358,5 +368,11 @@
         .card-avatar{
             margin-top: 0;
         }
+    }
+}
+
+.product-card {
+    .md-card-header {
+        min-height: 300px;
     }
 }

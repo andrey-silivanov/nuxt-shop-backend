@@ -6,23 +6,27 @@
             </md-card-header>
             <md-card-content>
                 <form novalidate class="md-layout" @submit.prevent="validateUser">
-                <md-field :class="getValidationClass('email')">
-                    <label for="email">Email</label>
-                    <md-input type="email" name="emaildsd" id="email" v-model="form.email" :disabled="sending" />
-                    <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
-                    <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
-                </md-field>
-                <md-field :class="getValidationClass('password')">
-                    <label for="password">Password</label>
-                    <md-input type="password" autocomplete="off" name="email" id="password" v-model="form.password" :disabled="sending" />
-                    <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
-                </md-field>
-                <md-card-actions>
-                    <md-button type="submit" class="md-success" :disabled="sending">Login</md-button>
-                </md-card-actions>
+                    <md-field :class="getValidationClass('email')">
+                        <label for="email">Email</label>
+                        <md-input type="email" name="emaildsd" id="email" v-model="form.email" :disabled="sending" />
+                        <span class="md-error" v-if="!$v.form.email.required">The email is required</span>
+                        <span class="md-error" v-else-if="!$v.form.email.email">Invalid email</span>
+                    </md-field>
+                    <md-field :class="getValidationClass('password')">
+                        <label for="password">Password</label>
+                        <md-input type="password" autocomplete="off" name="email" id="password" v-model="form.password" :disabled="sending" />
+                        <span class="md-error" v-if="!$v.form.password.required">The password is required</span>
+                    </md-field>
+                    <md-card-actions>
+                        <md-button type="submit" class="md-success" :disabled="sending">Login</md-button>
+                    </md-card-actions>
                 </form>
             </md-card-content>
         </md-card>
+        <md-dialog-alert
+                :md-active.sync="activeAlert"
+                md-title="Error !"
+                :md-content="alertError" />
     </div>
 </template>
 
@@ -44,6 +48,8 @@
                 password: null
             },
             sending: false,
+            activeAlert: false,
+            alertError: ''
         }),
         validations: {
             form: {
@@ -76,8 +82,8 @@
 
                 // Instead of this timeout, here you can call your API
                 window.setTimeout(() => {
-                    this.lastUser = `${this.form.firstName} ${this.form.lastName}`
-                    this.sending = false
+                    this.lastUser = `${this.form.firstName} ${this.form.lastName}`;
+                    this.sending = false;
                     this.clearForm()
                 }, 1500)
             },
@@ -90,37 +96,32 @@
             },
             login() {
                 this.sending = true;
-                this.errors = {}
+                this.alertError = ''
+
                 this.$auth.login({
                     params: {
-                        email: this.email,
-                        password: this.password
+                        email: this.form.email,
+                        password: this.form.password
                     },
                     success () {
-                        /*this.$vs.notify({
-                            time: 1500,
-                            title:'Success',
-                            text: 'Welcome',
-                            color: 'success'
-                        });*/
-                        let redirectPath = 'user';
                         this.sending = false
-                      //  if (this.$auth.check('manager')) redirectPath = 'admin';
-                       // setTimeout(() => this.$router.push(redirectPath), 1500); /// redirect
                     },
                     error(err) {
-                        if (err.response.data.code == 422) {
-                            this.errors = err.response.data.errors;
-                        } else {
-                            this.openAlert()
-                        }
+
+                        if(err.response.data.code == 422) this.alertError = 'Validation error';
+                        else if (err.response.data.code == 401) this.alertError = 'Unauthorized';
+                        else this.alertError = 'Server error';
+
+                        this.openAlert()
                         this.sending = false
                     },
                     rememberMe: true,
-                    fetchUser: true
+                    fetchUser: true,
+                    redirect: '/dashboard',
                 });
             },
-            openAlert(){
+            openAlert() {
+                console.log('ddd');
                 this.activeAlert = true;
             }
         },

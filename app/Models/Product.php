@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Models;
 
@@ -30,11 +30,18 @@ class Product extends EloquentModel implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'title',
+        'name',
+        'product_groups_id',
+        'sku',
+        'color',
         'description',
+        'provider_price',
         'price',
-        'count',
-        'published'
+        'picture',
+        'quantity',
+        'size',
+        'available',
+        'show',
     ];
 
     /**
@@ -71,6 +78,10 @@ class Product extends EloquentModel implements HasMedia
      * Entity relations go below
      */
 
+    public function productsGroup()
+    {
+        return $this->belongsTo(ProductGroups::class);
+    }
     // @todo:
 
     /**

@@ -1,12 +1,28 @@
 <?php
+declare (strict_types=1);
 
 namespace App\Exceptions;
 
-use Exception;
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
+use Tymon\JWTAuth\Exceptions\{
+    TokenExpiredException,
+    TokenInvalidException
+};
+use App\Http\Controllers\Traits\JsonResponseTrait,
+    Exception,
+    Illuminate\Auth\AuthenticationException,
+    Illuminate\Foundation\Exceptions\Handler as ExceptionHandler,
+    Illuminate\Validation\ValidationException,
+    Illuminate\Database\Eloquent\ModelNotFoundException,
+    Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class Handler
+ * @package App\Exceptions
+ */
 class Handler extends ExceptionHandler
 {
+    use JsonResponseTrait;
     /**
      * A list of the exception types that are not reported.
      *
@@ -29,7 +45,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
      * @return void
      */
     public function report(Exception $exception)
@@ -40,12 +56,32 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception $exception
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof TokenExpiredException) {
+            return response()->json(['token_expired'], $exception->getStatusCode());
+        } else if ($exception instanceof TokenInvalidException) {
+            return response()->json(['token_invalid'], $exception->getStatusCode());
+        } else if ($exception instanceof ValidationException) {
+
+            return $this->invalidResponse($exception->errors());
+        }
+
+        if ($exception instanceof NotFoundHttpException) {
+            return $this->notFoundResponse('Requested url is invalid');
+        }
+
+        if ($exception instanceof ModelNotFoundException)
+            return $this->notFoundResponse($exception->getMessage());
+
+
+        if ($exception instanceof \Swift_TransportException)
+            return $this->internalErrorResponse('Error email service');
+
         return parent::render($request, $exception);
     }
 }

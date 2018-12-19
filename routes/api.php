@@ -29,6 +29,8 @@ Route::group([
     Route::get('/tagging/major-themes', function () {
         return response()->json(['dsad' => '1']);
     });
+
+    Route::get('/admin/categories', 'CategoryController@getAll');
 });
 
 

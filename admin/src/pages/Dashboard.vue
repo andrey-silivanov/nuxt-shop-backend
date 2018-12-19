@@ -330,6 +330,6 @@ export default{
             }
         ]
     }
-  }
+  },
 }
 </script>
