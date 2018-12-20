@@ -3,16 +3,19 @@
         <div class="md-layout filter-products">
             <div class="md-layout-item">
                 <autocomplete
+                        :items="parentCategories"
+                        :placeholder="'Parent categories'"
+                        @selected="selectedParentCategory"
+                >
+                </autocomplete>
+            </div>
+            <div class="md-layout-item">
+                <autocomplete
                         :items="categories"
                         :placeholder="'Categories'"
                         @selected="selectedCategory"
                 >
                 </autocomplete>
-            </div>
-            <div class="md-layout-item">
-                <!--<md-autocomplete v-model="selectedCountry" :md-options="countries">
-                    <label>Country</label>
-                </md-autocomplete>-->
             </div>
             <div class="md-layout-item">
                 <autocomplete
@@ -68,6 +71,7 @@
         name: "productsList",
         data: () => ({
             products: [],
+            parentCategories: [],
             categories: [],
             search: '',
             pagination: {
@@ -89,7 +93,12 @@
                     .catch(error => console.log(error))
             },
             getCategory() {
-                this.$http.get('/categories')
+                this.$http.get('/categories/parent')
+                    .then(response => this.parentCategories = response.data.data)
+                    .catch(error => console.log(error))
+            },
+            selectedParentCategory(value) {
+                this.$http.get(`/categories/children/${value.id}`)
                     .then(response => this.categories = response.data.data)
                     .catch(error => console.log(error))
             },

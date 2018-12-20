@@ -1,6 +1,11 @@
 <?php
 
-require_once ('auth.php');
+require_once('auth.php');
 
-Route::get('/products', 'ProductController@fetch');
-Route::get('/products/import', 'ProductController@import');
+Route::group([
+    'middleware' => ['auth:api'],
+    'as' => 'admin'
+], function () {
+    require_once ('products.php');
+    require_once ('category.php');
+});
