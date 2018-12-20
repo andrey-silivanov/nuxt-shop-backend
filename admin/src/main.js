@@ -19,8 +19,9 @@ import Chartist from 'chartist'
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 
+const domain = 'http://nuxt-shop-back';
 Vue.use(VueAxios, axios);
-Vue.axios.defaults.baseURL = 'http://nuxt-shop-back/api/admin';
+Vue.axios.defaults.baseURL = `${domain}/api/admin`;
 
 //Vue.use(VueRouter)
 
@@ -47,7 +48,6 @@ Vue.use(require('@websanova/vue-auth'), {
     authRedirect: '/auth/login',
     parseUserData: function (response) {
         console.log('found user')
-        console.log(response.data)
         return response.data
     },
     forbiddenRedirect: {path: '/403'},
@@ -65,9 +65,8 @@ Object.defineProperty(Vue.prototype, '$Chartist', {
     get() {
         return this.$root.Chartist
     }
-})
+});
 
-Vue.component('ordered-table', require('@/components'));
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
@@ -92,5 +91,5 @@ window.io = require('socket.io-client');
 
 window.Echo = new Echo({
     broadcaster: 'socket.io',
-    host: `${window.location.hostname}:6001`,
+    host: `${domain}:6001`,
 });

@@ -55,6 +55,7 @@ class LoginController extends ApiController
      */
     public function me(): JsonResponse
     {
+        \Log::info('ssa');
         return $this->successResponse(
             $this->transformDataForResponse(new UserResource(auth()->user())), 'success');
     }

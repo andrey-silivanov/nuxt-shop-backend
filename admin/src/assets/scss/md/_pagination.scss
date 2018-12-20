@@ -1,5 +1,8 @@
 .pagination{
-    > li > a,
+    > li {
+        display: inline;
+    }
+    > li >  a,
     > li > span{
         border: 0;
         border-radius: 30px !important;
@@ -11,12 +14,11 @@
         line-height: 30px;
         color: $gray-color;
         font-weight: $font-weight-default;
-        font-size: $mdb-btn-font-size-base;
+        font-size: 15px;
         text-transform: uppercase;
         background: transparent;
 
-        &:hover,
-        &:focus{
+        &:hover{
             color: $gray-color;
         }
     }
@@ -27,7 +29,6 @@
         text-align: center;
 
         &,
-        &:focus,
         &:hover{
             background-color: $brand-primary;
             border-color: $brand-primary;
@@ -42,7 +43,6 @@
         > .active > a,
         > .active > span{
             &,
-            &:focus,
             &:hover{
                 background-color: $brand-info;
                 border-color: $brand-info;
@@ -55,7 +55,6 @@
         > .active > a,
         > .active > span{
             &,
-            &:focus,
             &:hover{
                 background-color: $brand-success;
                 border-color: $brand-success;
@@ -68,7 +67,6 @@
         > .active > a,
         > .active > span{
             &,
-            &:focus,
             &:hover{
                 background-color: $brand-warning;
                 border-color: $brand-warning;
@@ -81,7 +79,6 @@
         > .active > a,
         > .active > span{
             &,
-            &:focus,
             &:hover{
                 background-color: $brand-danger;
                 border-color: $brand-danger;

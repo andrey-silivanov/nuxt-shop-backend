@@ -373,6 +373,23 @@
 
 .product-card {
     .md-card-header {
-        min-height: 300px;
+        height: 155px;
+        overflow: hidden;
+        .product-name {
+            font-size: 18px;
+        }
+    }
+    .md-card-header:hover {
+        min-height: 155px;
+        height: 100%;
+    }
+    .md-card-content {
+        height: 100px;
+        overflow: hidden;
+    }
+    .md-card-content:hover {
+        min-height: 100px;
+        height: 100%;
+        overflow: hidden;
     }
 }

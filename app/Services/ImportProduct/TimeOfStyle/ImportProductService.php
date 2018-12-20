@@ -14,7 +14,8 @@ class ImportProductService
     /**
      *
      */
-    const XML_URL = 'https://timeofstyle.com/standart_yml_catalog.xml';
+    //const XML_URL = 'https://timeofstyle.com/standart_yml_catalog.xml';
+    const XML_URL = 'https://timeofstyle.com/prom_yml_drop_catalog.xml';
     /**
      * @var \SimpleXMLElement
      */
@@ -25,7 +26,7 @@ class ImportProductService
      */
     public function __construct()
     {
-        $this->file = simplexml_load_file('https://timeofstyle.com/standart_yml_catalog.xml');
+        $this->file = simplexml_load_file(self::XML_URL);
     }
 
     /**
