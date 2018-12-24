@@ -20,6 +20,7 @@
 })->where('any', '.*');*/
 Route::auth();
 Route::get('/', function () {
-   $r = new \App\Services\ImportProduct\TimeOfStyle\ImportProductService();
-   $r->run();
+   echo "Test";
+    //$r = new \App\Services\ImportProduct\TimeOfStyle\ImportProductService();
+   //$r->run();
 });

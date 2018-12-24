@@ -77,6 +77,11 @@ class Category extends EloquentModel
         return $this->belongsTo(Category::class, 'parent_id');
     }
 
+    public function productsGroup()
+    {
+        return $this->hasMany(ProductGroups::class);
+    }
+
     /**
      * Entity scopes go below
      */
@@ -101,5 +106,8 @@ class Category extends EloquentModel
      * Entity public methods go below
      */
 
-    // @todo:
+    public function isParent()
+    {
+        return $this->children->isNotEmpty();
+    }
 }

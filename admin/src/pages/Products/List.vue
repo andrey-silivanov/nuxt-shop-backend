@@ -77,6 +77,11 @@
             pagination: {
                 total: 0
             },
+            queryParams: {
+                page: 1,
+                categoryId: '',
+                search: ''
+            }
         }),
         created() {
             this.getProducts();
@@ -85,7 +90,9 @@
         methods: {
             getProducts(page = 1) {
                 console.log(page);
-                this.$http.get(`/products?page=${page}`)
+                this.$http.get(`/products`, {
+                    params: this.queryParams
+                })
                     .then(response => {
                         this.pagination.total = response.data.paginate.meta.last_page;
                         this.products = response.data.data
@@ -99,12 +106,16 @@
             },
             selectedParentCategory(value) {
                 this.$http.get(`/categories/children/${value.id}`)
-                    .then(response => this.categories = response.data.data)
+                    .then(response => {
+                        this.categories = response.data.data;
+                        this.queryParams.categoryId = value.id;
+                        this.getProducts();
+                    })
                     .catch(error => console.log(error))
             },
             selectedCategory(value) {
-                console.log('sel');
-                console.log(value)
+                this.queryParams.categoryId = value.id;
+                this.getProducts();
             },
             searchProducts(value) {
                 console.log(value)
