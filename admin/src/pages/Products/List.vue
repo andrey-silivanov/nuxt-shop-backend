@@ -21,7 +21,6 @@
                 <autocomplete
                         :items="products"
                         :placeholder="'Search'"
-                        @selected="selectedCategory"
                         @changed="searchProducts"
                 >
                 </autocomplete>
@@ -73,7 +72,6 @@
             products: [],
             parentCategories: [],
             categories: [],
-            search: '',
             pagination: {
                 total: 0
             },
@@ -118,7 +116,8 @@
                 this.getProducts();
             },
             searchProducts(value) {
-                console.log(value)
+                this.queryParams.search = value;
+                this.getProducts()
             }
         }
     }

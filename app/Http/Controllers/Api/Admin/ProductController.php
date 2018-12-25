@@ -16,7 +16,13 @@ class ProductController extends Controller
     {
         $productBuilder = ProductGroups::query();
 
-        if ($request->get('categoryId')) {
+        if ($request->get('search')) {
+            $productBuilder = ProductGroups::whereHas('products', function ($q) use ($request) {
+                $q->where('name', 'LIKE', "%{$request->get('search')}%");
+            });
+        }
+
+        /*if ($request->get('categoryId')) {
             $category = Category::findOrFail($request->get('categoryId'));
             if ($category->isParent()) {
                 $categoryIds = $category->children->pluck('id')->toArray();    ///  or category_id
@@ -28,9 +34,11 @@ class ProductController extends Controller
             $productBuilder->whereHas('category', function ($query) use ($categoryIds) {
                 $query->whereIn('id', $categoryIds);                           /// or category_id
             });
-        }
+        }*/
 
-        $products = $productBuilder->with('products')->paginate(20);
+        $products = $productBuilder
+            //->with('products')
+        ->paginate(20);
         
         return $this->successResponse(
             $this->transformDataForResponse(ProductResource::collection($products)), 'success');
