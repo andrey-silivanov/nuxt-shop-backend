@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\{
     Builder
 };
 use App\Models\EloquentModel;
+use Laravel\Scout\Searchable;
 
 /**
  * Class ProductGroups
@@ -14,6 +15,7 @@ use App\Models\EloquentModel;
  */
 class ProductGroups extends EloquentModel
 {
+    use Searchable;
     /**
      * @var string
      */
@@ -58,6 +60,18 @@ class ProductGroups extends EloquentModel
      * @var array
      */
     protected $appends = [];
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $this->products;
+
+        return $this->toArray();
+    }
 
     /**
      * Entity relations go below
