@@ -9,6 +9,7 @@ import UserProfile from '@/pages/UserProfile.vue'
 import Login from '@/pages/Auth/Login'
 import CategoriesList from '@/pages/Categories/List'
 import ProductsList from '@/pages/Products/List'
+import ProductsShow from '@/pages/Products/Show'
 import NotFound from '@/pages/Errors/NotFound'
 import Forbidden from '@/pages/Errors/Forbidden'
 
@@ -44,6 +45,11 @@ const routes = [
                 path: 'products',
                 name: 'Products',
                 component: ProductsList
+            },
+            {
+                path: 'products/:id',
+                name: 'Products Show',
+                component: ProductsShow
             }
         ]
     },

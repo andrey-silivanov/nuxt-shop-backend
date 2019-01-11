@@ -16,32 +16,35 @@ class ProductController extends Controller
     {
         $productBuilder = ProductGroups::query();
 
-        if ($request->get('search')) {
-            $productBuilder = ProductGroups::whereHas('products', function ($q) use ($request) {
-                $q->where('name', 'LIKE', "%{$request->get('search')}%");
-            });
-        }
-
-        /*if ($request->get('categoryId')) {
+        if ($request->get('categoryId')) {
             $category = Category::findOrFail($request->get('categoryId'));
             if ($category->isParent()) {
                 $categoryIds = $category->children->pluck('id')->toArray();    ///  or category_id
 
             } else {
                 $categoryIds = array($category->getKey());
-               // return $categoryIds;
             }
             $productBuilder->whereHas('category', function ($query) use ($categoryIds) {
                 $query->whereIn('id', $categoryIds);                           /// or category_id
             });
-        }*/
+        }
 
-        $products = $productBuilder
-            //->with('products')
-        ->paginate(20);
+        if ($request->get('search')) {
+            $productBuilder->whereHas('products', function ($q) use ($request) {
+                $q->where('name', 'LIKE', "%{$request->get('search')}%");
+            });
+        }
         
         return $this->successResponse(
-            $this->transformDataForResponse(ProductResource::collection($products)), 'success');
+            $this->transformDataForResponse(
+                ProductResource::collection($productBuilder->paginate(20))), 'success');
+    }
+
+    public function show(ProductGroups $productGroups)
+    {
+        return $this->successResponse(
+            $this->transformDataForResponse(
+                new ProductResource($productGroups)), 'success');
     }
 
     public function import()

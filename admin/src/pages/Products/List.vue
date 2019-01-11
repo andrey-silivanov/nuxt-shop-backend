@@ -87,7 +87,6 @@
         },
         methods: {
             getProducts(page = 1) {
-                console.log(page);
                 this.$http.get(`/products`, {
                     params: this.queryParams
                 })
@@ -116,8 +115,10 @@
                 this.getProducts();
             },
             searchProducts(value) {
-                this.queryParams.search = value;
-                this.getProducts()
+                if (value.length % 2) {
+                    this.queryParams.search = value;
+                    this.getProducts()
+                }
             }
         }
     }

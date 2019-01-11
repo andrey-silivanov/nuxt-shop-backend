@@ -20,10 +20,25 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 
 const domain = 'http://nuxt-shop-back';
+
 Vue.use(VueAxios, axios);
 Vue.axios.defaults.baseURL = `${domain}/api/admin`;
 
-//Vue.use(VueRouter)
+Vue.axios.interceptors.response.use(response => response,
+    (error) => {
+        if (error.response.status === 403 && !error.response.config.url.includes('user/login')) {
+            Vue.auth.logout({
+                success() {
+                    window.localStorage.removeItem('userData');
+                },
+                redirect: '/login',
+            });
+        }
+        if(error.response.status === 404) {
+            Vue.router.push({ name: '404'})
+        }
+        return Promise.reject(error);
+    });
 
 Vue.router = router;
 
