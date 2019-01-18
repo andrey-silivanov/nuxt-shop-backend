@@ -62,7 +62,6 @@ Vue.use(require('@websanova/vue-auth'), {
     router: require('@websanova/vue-auth/drivers/router/vue-router.2.x.js'),
     authRedirect: '/auth/login',
     parseUserData: function (response) {
-        console.log('found user')
         return response.data
     },
     forbiddenRedirect: {path: '/403'},
@@ -70,10 +69,14 @@ Vue.use(require('@websanova/vue-auth'), {
 })
 
 
-Vue.use(MaterialDashboard)
-Vue.use(GlobalComponents)
-Vue.use(GlobalDirectives)
-Vue.use(Notifications)
+Vue.use(MaterialDashboard);
+Vue.use(GlobalComponents);
+Vue.use(GlobalDirectives);
+Vue.use(Notifications);
+
+import VueLazyLoad from 'vue-lazyload'
+
+Vue.use(VueLazyLoad);
 
 // global library setup
 Object.defineProperty(Vue.prototype, '$Chartist', {

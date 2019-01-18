@@ -1,29 +1,28 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{Builder, Relations\BelongsTo, Relations\HasMany, Relations\HasOne};
+use Illuminate\Database\Eloquent\{Builder, Relations\HasOne};
 use App\Models\EloquentModel;
 
 /**
- * Class Category
+ * Class Material
  * @package App\Models
  */
-class Category extends EloquentModel
+class Material extends EloquentModel
 {
     /**
      * @var string
      */
-    protected $table = 'categories';
+    protected $table = 'materials';
 
     /**
      * The attributes that are mass assignable.
      * @var array
      */
     protected $fillable = [
-        'name',
-        'active'
+        'name', 'active'
     ];
 
     /**
@@ -59,6 +58,7 @@ class Category extends EloquentModel
     /**
      * Entity relations go below
      */
+
     /**
      * @return HasOne
      */
@@ -71,6 +71,7 @@ class Category extends EloquentModel
      * Entity scopes go below
      */
 
+    // @todo:
 
     /**
      * Entity mutators and accessors go below
@@ -82,8 +83,5 @@ class Category extends EloquentModel
      * Entity public methods go below
      */
 
-    public function isParent()
-    {
-        return $this->children->isNotEmpty();
-    }
+    // @todo:
 }

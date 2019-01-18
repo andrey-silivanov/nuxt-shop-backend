@@ -8,4 +8,6 @@ Route::group([
 ], function () {
     require_once ('products.php');
     require_once ('category.php');
+    require_once ('brand.php');
+    require_once('phone_models.php');
 });

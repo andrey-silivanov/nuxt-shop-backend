@@ -19,7 +19,17 @@
         }),
         props: {
             items: Array,
-            placeholder: String
+            placeholder: String,
+            value: {
+                default: ''
+            }
+        },
+        watch: {
+            value(v) {
+                if (v.hasOwnProperty('name')) {
+                    this.selectedItem  = v.name;
+                }
+            }
         },
         methods: {
             opened() {
@@ -27,11 +37,11 @@
                 this.selectedItem = this.selectedItem.substring(0, this.selectedItem.length - 1)
             },
             selected (item) {
-                console.log('che')
-                this.selectedItem = item.name
+                this.selectedItem = item.name;
                 this.$emit('selected', item)
             },
             changed(value) {
+                if(value === '') this.$emit('selected', {});
                 this.$emit('changed', value)
             }
         }

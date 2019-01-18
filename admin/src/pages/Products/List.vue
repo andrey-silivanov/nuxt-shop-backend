@@ -3,9 +3,19 @@
         <div class="md-layout filter-products">
             <div class="md-layout-item">
                 <autocomplete
-                        :items="parentCategories"
-                        :placeholder="'Parent categories'"
-                        @selected="selectedParentCategory"
+                        :items="brands"
+                        :placeholder="'Brand'"
+                        @selected="selectedBrand"
+                        :value="currentBrand"
+                >
+                </autocomplete>
+            </div>
+            <div class="md-layout-item">
+                <autocomplete
+                        :items="phoneModels"
+                        :placeholder="'Phone model'"
+                        @selected="selectedPhoneModel"
+                        :value="currentPhoneModel"
                 >
                 </autocomplete>
             </div>
@@ -22,6 +32,7 @@
                         :items="products"
                         :placeholder="'Search'"
                         @changed="searchProducts"
+                        @selected="searchProducts"
                 >
                 </autocomplete>
             </div>
@@ -42,8 +53,8 @@
                         </md-card-media>
                     </md-card-header>
                     <md-card-content >
-                        <p>{{ product.sizes }}</p>
-                        <p>{{ product.color }}</p>
+                        <p><strong>Price: </strong>{{ product.price }}</p>
+                        <p><strong>Color: </strong>{{ product.color }}</p>
                     </md-card-content>
 
                     <md-card-actions>
@@ -70,19 +81,25 @@
         name: "productsList",
         data: () => ({
             products: [],
-            parentCategories: [],
+            brands: [],
+            phoneModels: [],
             categories: [],
+            currentBrand: {},
+            currentPhoneModel: {},
             pagination: {
                 total: 0
             },
             queryParams: {
                 page: 1,
                 categoryId: '',
+                phoneModelId: '',
                 search: ''
             }
         }),
         created() {
-            this.getProducts();
+           // this.getProducts();
+            this.getBrands();
+            //this.getPhoneModels();
             this.getCategory();
         },
         methods: {
@@ -97,28 +114,51 @@
                     .catch(error => console.log(error))
             },
             getCategory() {
-                this.$http.get('/categories/parent')
-                    .then(response => this.parentCategories = response.data.data)
-                    .catch(error => console.log(error))
-            },
-            selectedParentCategory(value) {
-                this.$http.get(`/categories/children/${value.id}`)
-                    .then(response => {
-                        this.categories = response.data.data;
-                        this.queryParams.categoryId = value.id;
-                        this.getProducts();
-                    })
+                this.$http.get('/categories')
+                    .then(response => this.categories = response.data.data)
                     .catch(error => console.log(error))
             },
             selectedCategory(value) {
+                console.log('cat');
+                console.log(value);
                 this.queryParams.categoryId = value.id;
                 this.getProducts();
             },
             searchProducts(value) {
-                if (value.length % 2) {
+                if (value.length % 2 || value.length === 0) {
                     this.queryParams.search = value;
                     this.getProducts()
                 }
+            },
+            getBrands() {
+                this.$http.get(`/brands`)
+                    .then(response => {
+                        this.brands = response.data.data;
+                        if(this.brands.length > 0) this.currentBrand = this.brands[0];
+                        this.getPhoneModels();
+                    })
+                    .catch(error => console.log(error))
+            },
+            getPhoneModels() {
+                this.$http.get(`/phone-models`, {params: {brandId: this.currentBrand.id}})
+                    .then(response => {
+                        this.phoneModels = response.data.data;
+                        if(this.brands.length > 0) {
+                            this.currentPhoneModel = this.phoneModels[0]
+                            this.queryParams.phoneModelId = this.currentPhoneModel.id
+                        }
+                        this.getProducts()
+                    })
+                    .catch(error => console.log(error))
+            },
+            selectedBrand(value) {
+                this.currentBrand = value;
+                this.getPhoneModels()
+            },
+            selectedPhoneModel(value) {
+                this.currentPhoneModel = value;
+                this.queryParams.phoneModelId = this.currentPhoneModel.id;
+                this.getProducts();
             }
         }
     }

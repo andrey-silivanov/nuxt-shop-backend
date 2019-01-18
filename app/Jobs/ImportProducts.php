@@ -32,10 +32,10 @@ class ImportProducts implements ShouldQueue
      */
     public function handle()
     {
-        $s = new ImportProductService();
+        $s = new Importz();
         $s->run();
-        $user = User::find(1);
+       /* $user = User::find(1);
 
-        $user->notify(new ImportProductNotification());
+        $user->notify(new ImportProductNotification());*/
     }
 }

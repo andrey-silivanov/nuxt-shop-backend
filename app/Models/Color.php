@@ -1,45 +1,28 @@
 <?php
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\{Builder, Relations\BelongsTo, Relations\HasOne};
 use App\Models\EloquentModel;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
 /**
- * Class Product
- *
+ * Class Color
  * @package App\Models
- * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\MediaLibrary\Models\Media[] $media
- * @mixin \Eloquent
  */
-class Product extends EloquentModel implements HasMedia
+class Color extends EloquentModel
 {
-    use HasMediaTrait;
     /**
      * @var string
      */
-    protected $table = 'products';
+    protected $table = 'colors';
 
     /**
      * The attributes that are mass assignable.
      * @var array
      */
     protected $fillable = [
-        'sku',
-        'name',
-        'title',
-        'description',
-        'price',
-        'quantity',
-        'color_id',
-        'brand_id',
-        'phone_model_id',
-        'category_id',
-        'picture',
-        'material_id'
+        'name', 'type', 'active'
     ];
 
     /**
@@ -76,31 +59,10 @@ class Product extends EloquentModel implements HasMedia
      * Entity relations go below
      */
 
-    public function color():BelongsTo
+    public function product():HasOne
     {
-        return $this->belongsTo(Color::class);
+        return $this->hasOne(Product::class);
     }
-
-    public function category():BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    public function brand():BelongsTo
-    {
-        return $this->belongsTo(Brand::class);
-    }
-
-    public function phoneModel():BelongsTo
-    {
-        return $this->belongsTo(PhoneModels::class);
-    }
-
-    public function material():BelongsTo
-    {
-        return $this->belongsTo(Material::class);
-    }
-    // @todo:
 
     /**
      * Entity scopes go below
@@ -117,4 +79,6 @@ class Product extends EloquentModel implements HasMedia
     /**
      * Entity public methods go below
      */
+
+    // @todo:
 }

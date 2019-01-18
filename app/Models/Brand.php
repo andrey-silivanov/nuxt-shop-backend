@@ -3,30 +3,26 @@ declare(strict_types = 1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{
-    Builder
-};
+use Illuminate\Database\Eloquent\{Builder, Relations\HasOne};
 use App\Models\EloquentModel;
 
 /**
- * Class ProductGroups
+ * Class Brand
  * @package App\Models
  */
-class ProductGroups extends EloquentModel
+class Brand extends EloquentModel
 {
     /**
      * @var string
      */
-    protected $table = 'product_groups';
+    protected $table = 'brands';
 
     /**
      * The attributes that are mass assignable.
      * @var array
      */
     protected $fillable = [
-        'provider_id',
-        'provider_url',
-        'category_id',
+        'name', 'active'
     ];
 
     /**
@@ -62,17 +58,14 @@ class ProductGroups extends EloquentModel
     /**
      * Entity relations go below
      */
-    public function products()
-    {
-        return $this->hasMany(Product::class);
-    }
 
-    public function category()
+    /**
+     * @return HasOne
+     */
+    public function product():HasOne
     {
-        return $this->belongsTo(Category::class, 'category_id', 'category_id');
+        return $this->hasOne(Product::class);
     }
-
-    // @todo:
 
     /**
      * Entity scopes go below

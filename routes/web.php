@@ -20,7 +20,8 @@
 })->where('any', '.*');*/
 Route::auth();
 Route::get('/', function () {
-   echo "Test";
-    //$r = new \App\Services\ImportProduct\TimeOfStyle\ImportProductService();
-   //$r->run();
+    /*$s = new \App\Services\ImportProduct\EndorPhone\ImportService();
+    $s->run();*/
+     \App\Jobs\ImportProducts::dispatch();
+   return 'import';
 });

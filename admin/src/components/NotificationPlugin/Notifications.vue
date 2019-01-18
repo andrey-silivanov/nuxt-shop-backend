@@ -36,7 +36,7 @@ export default {
 </script>
 <style lang="scss">
   .list-move {
-    transition: transform 0.3s, opacity 0.4s;
+    transition: transform 1.3s, opacity 2.4s;
   }
   .list-item {
     display: inline-block;

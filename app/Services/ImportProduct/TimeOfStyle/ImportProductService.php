@@ -14,8 +14,8 @@ class ImportProductService
     /**
      *
      */
-    //const XML_URL = 'https://timeofstyle.com/standart_yml_catalog.xml';
-    const XML_URL = 'https://timeofstyle.com/prom_yml_drop_catalog.xml';
+    const XML_URL = 'https://timeofstyle.com/standart_yml_catalog.xml'; /// норм цвет
+    //const XML_URL = 'https://timeofstyle.com/prom_yml_drop_catalog.xml';
     /**
      * @var \SimpleXMLElement
      */
@@ -34,7 +34,7 @@ class ImportProductService
      */
     public function run()
     {
-        $this->saveCategories($this->categoriesParser());
+       // $this->saveCategories($this->categoriesParser());
         $this->saveProducts($this->productsParser());
     }
 
@@ -69,6 +69,7 @@ class ImportProductService
     {
         $result = [];
         foreach ($this->file->shop->offers->offer as $offer) {
+            //dd($offer);
             foreach ($offer->param as $param) {
                 if ($param['name'] == 'Цвет' ){
                     $color = $param;
@@ -78,38 +79,38 @@ class ImportProductService
                 }
             }
 
-            $productId = strval($offer['id']);
+            $productId = (string) $offer['id'];
 
             if (strpos($productId, "|")) {
                 $str = strpos($productId, "|");
                 $productId = substr($productId, 0, $str);
             }
 
-            array_push($result,[
+            $result[] = [
                 /// groups
                 'groups' => [
                     'provider_id'  => $productId,
-                    'provider_url' => strval($offer->url),
-                    'category_id'  => strval($offer->categoryId),
+                    'provider_url' => (string) $offer->url,
+                    'category_id'  => (string) $offer->categoryId,
                 ],
 
                 /// products
                 'products' => [
-                    'name' => strval($offer->name),
-                    'sku' => strval($offer['id']),
+                    'name' => (string) $offer->name,
+                    'sku' => (string) $offer['id'],
                     'color' => $color ?? 'not color',
-                    'description'=> strval($offer->description),
-                    'provider_price'=> strval($offer->price),
+                    'description'=> (string) $offer->description,
+                    'provider_price'=> (string) $offer->price,
                     'price' => 10000,
-                    'picture' => strval($offer->picture[0]),
-                    'quantity' => strval($offer->quantity),
+                    'picture' => json_encode($this->getPicture($offer)),
+                    'quantity' => (string) $offer->quantity,
                     'size' => $size ?? 99,
-                    'available'=> (bool)strval($offer['available']),
+                    'available'=> (bool)(string)$offer['available'],
                     'show' => true,
                 ]
-            ]);
+            ];
         }
-
+     //   dd($result[0]);
         return $result;
     }
 
@@ -128,13 +129,28 @@ class ImportProductService
      */
     private function saveProducts(array $products)
     {
+       // dd($products[12]['products']);
         foreach ($products as $product) {
             $productGroup = \App\Models\ProductGroups::firstOrCreate(
                 ['provider_id' => $product['groups']['provider_id']], $product['groups']);
 
-            $productGroup->products()->updateOrCreate([
+            $productItem = $productGroup->products()->updateOrCreate([
                 'sku' => $product['products']['sku']
             ],$product['products']);
+
+           /* foreach ($product['products']['picture'] as $picture) {
+                $productItem->addMediaFromUrl($picture)->toMediaCollection('images');
+            }*/
         }
+    }
+
+    private function getPicture($offer)
+    {
+        $pictures = [];
+        foreach ($offer->picture as $picture) {
+            $pictures[] = (string) $picture;
+        }
+
+        return $pictures;
     }
 }

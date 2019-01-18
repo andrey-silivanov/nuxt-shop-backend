@@ -7,7 +7,7 @@ Route::group([
     Route::get('/', [
         'uses' => 'ProductController@fetch'
     ]);
-    Route::get('/{productGroups}', [
+    Route::get('/{product}', [
         'uses' => 'ProductController@show'
     ]);
     Route::get('import', [
