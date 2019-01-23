@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePhoneModelsTable extends Migration
+class CreateTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,10 @@ class CreatePhoneModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('phone_models', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->unsignedInteger('brand_id');
-            $table->boolean('active')->default(true);
             $table->timestamps();
-
-            $table->foreign('brand_id')
-                ->references('id')->on('brands')
-                ->onDelete('cascade');
         });
     }
 
@@ -33,6 +27,6 @@ class CreatePhoneModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phone_models');
+        Schema::dropIfExists('tags');
     }
 }

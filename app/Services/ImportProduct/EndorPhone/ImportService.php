@@ -15,6 +15,7 @@ use App\Models\Color;
 use App\Models\Material;
 use App\Models\PhoneModels;
 use App\Models\Product;
+use App\Models\Tag;
 
 class ImportService
 {
@@ -41,12 +42,20 @@ class ImportService
                         $color = $result['Цвет'];
                         $material = $result['Материал'];
                         $category = $result['Категория дизайна'];
+                        $tag = ucfirst($result['Тег']);
                     try {
                     $brand = Brand::firstOrCreate(['name' => $brand], ['name' => $brand]);
                     $model =  PhoneModels::firstOrCreate(['name' => $model, 'brand_id' => $brand->getKey()], ['name' => $model]);
-                    $color = Color::firstOrCreate(['name' => $color, 'type' => $result['Особенность цвета']], ['name' => $color]);
+                    if ($color !== '') {
+                        $color = Color::firstOrCreate(['name' => $color], ['name' => $color, 'type' => $result['Особенность цвета']] );
+                        $colorId = $color->getKey();
+                    } else {
+                        $colorId = null;
+                    }
+
                     $material = Material::firstOrCreate(['name' => $material], ['name' => $material]);
                     $category = Category::firstOrCreate(['name' => $category], ['name' => $category]);
+                    $tag = Tag::firstOrCreate(['name' => $tag], ['name' => $tag]);
 
                     Product::updateOrCreate([
                         'sku' => $result["﻿Артикул"],
@@ -56,11 +65,12 @@ class ImportService
                         'description' => $result['Описание'],
                         'price' => $result['Цена'],
                         'quantity' => $result['Остаток'],
-                        'color_id' => $color->getKey(),
+                        'color_id' => $colorId,
                         'brand_id' => $brand->getKey(),
                         'category_id' => $category->getKey(),
                         'picture' => $result['Фото'],
-                        'material_id' => $material->getKey()
+                        'material_id' => $material->getKey(),
+                        'tag_id' => $tag->getKey()
                     ], ['sku' => $result["﻿Артикул"]]);
                     } catch (\Exception $e) {
                         echo $e->getMessage();

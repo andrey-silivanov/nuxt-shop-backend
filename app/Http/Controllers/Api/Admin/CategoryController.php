@@ -14,16 +14,4 @@ class CategoryController extends Controller
         return $this->successResponse(
             $this->transformDataForResponse(CategoryResource::collection(Category::all())), 'success');
     }
-
-    public function getParent()
-    {
-        return $this->successResponse(
-            $this->transformDataForResponse(CategoryResource::collection(Category::getParent()->get())), 'success');
-    }
-
-    public function getChildren(Category $category)
-    {
-        return $this->successResponse(
-            $this->transformDataForResponse(CategoryResource::collection($category->children)), 'success');
-    }
 }

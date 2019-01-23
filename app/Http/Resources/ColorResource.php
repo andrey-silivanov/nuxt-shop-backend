@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Admin;
+namespace App\Http\Resources;
 
-use App\Models\PhoneModels;
+use App\Models\Color;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ModelResource extends JsonResource
+class ColorResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -13,12 +13,13 @@ class ModelResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request):array
     {
-        /* @var PhoneModels $this */
+        /* @var Color $this */
         return [
             'id' => $this->getKey(),
-            'name' => $this->getAttribute('name')
+            'name' => $this->getAttribute('name'),
+            'hex' => $this->getAttribute('hex')
         ];
     }
 }

@@ -42,6 +42,7 @@
         <div class="md-layout">
             <div v-for="product in products" class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-25">
                 <md-card class="product-card">
+                    <router-link :to="{ name: 'Products Show', params: { id: product.id }}">
                     <md-card-header data-background-color="white">
                         <md-card-header-text>
                             <div class="md-title product-name">{{ product.name }}</div>
@@ -52,6 +53,7 @@
                             <img :src="product.picture" alt="People">
                         </md-card-media>
                     </md-card-header>
+                    </router-link>
                     <md-card-content >
                         <p><strong>Price: </strong>{{ product.price }}</p>
                         <p><strong>Color: </strong>{{ product.color }}</p>

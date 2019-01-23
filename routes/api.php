@@ -18,19 +18,33 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group([
-   'namespace' => 'Api',
-    'as' => 'api'
+    'namespace' => 'Api',
+    'as'        => 'api'
 ], function () {
     Route::get('/products', [
-        'as' => '.products',
-        'uses' => 'ProductController@index'
+        'as'   => '.products',
+        'uses' => 'ProductController@fetch'
     ]);
-
-    Route::get('/tagging/major-themes', function () {
-        return response()->json(['dsad' => '1']);
-    });
-
-    Route::get('/admin/categories', 'CategoryController@getAll');
+    Route::get('/categories', [
+        'as' => '.categories',
+        'uses' => 'CategoryController@fetch'
+    ]);
+    Route::get('/brands', [
+        'as'   => '.brands',
+        'uses' => 'BrandController@fetch'
+    ]);
+    Route::get('/phone-models', [
+        'as'   => '.phone-models',
+        'uses' => 'PhoneModelController@fetch'
+    ]);
+    Route::get('/colors', [
+        'as' => '.colors',
+        'uses' => 'ColorController@fetch'
+    ]);
+    Route::get('/tags', [
+        'as' => '.tags',
+        'uses' => 'TagController@fetch'
+    ]);
 });
 
 

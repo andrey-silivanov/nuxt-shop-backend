@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Http\Resources;
 
-use App\Models\Category,
+use App\Models\Tag,
     Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class CategoryResource
+ * Class TagResource
  * @package App\Http\Resources
  */
-class CategoryResource extends JsonResource
+class TagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,12 +18,12 @@ class CategoryResource extends JsonResource
      * @param  \Illuminate\Http\Request $request
      * @return array
      */
-    public function toArray($request):array
+    public function toArray($request): array
     {
-        /* @var Category $this */
+        /* @var Tag $this */
         return [
             'id'   => $this->getKey(),
-            'name' => $this->getAttribute('name'),
+            'name' => $this->getAttribute('name')
         ];
     }
 }

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\{Builder, Relations\BelongsTo, Relations\HasOne};
+use Illuminate\Database\Eloquent\{Builder, Relations\BelongsTo, Relations\BelongsToMany, Relations\HasOne};
 use App\Models\EloquentModel;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
@@ -39,7 +39,8 @@ class Product extends EloquentModel implements HasMedia
         'phone_model_id',
         'category_id',
         'picture',
-        'material_id'
+        'material_id',
+        'tag_id'
     ];
 
     /**
@@ -99,6 +100,11 @@ class Product extends EloquentModel implements HasMedia
     public function material():BelongsTo
     {
         return $this->belongsTo(Material::class);
+    }
+
+    public function tags():BelongsTo
+    {
+        return $this->belongsTo(Tag::class);
     }
     // @todo:
 

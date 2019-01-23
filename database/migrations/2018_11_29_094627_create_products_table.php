@@ -21,13 +21,13 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->integer('price');
             $table->integer('quantity');
-            $table->integer('color_id');
+            $table->integer('color_id')->nullable();
             $table->integer('brand_id');
             $table->integer('phone_model_id');
             $table->integer('category_id');
+            $table->integer('tag_id');
             $table->string('picture');
             $table->integer('material_id');
-
             $table->boolean('show')->default(true);
             $table->timestamps();
         });
