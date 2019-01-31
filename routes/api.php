@@ -25,6 +25,10 @@ Route::group([
         'as'   => '.products',
         'uses' => 'ProductController@fetch'
     ]);
+    Route::get('/products/{product}', [
+        'as'   => '.products-show',
+        'uses' => 'ProductController@show'
+    ]);
     Route::get('/categories', [
         'as' => '.categories',
         'uses' => 'CategoryController@fetch'

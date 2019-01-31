@@ -3,15 +3,27 @@ declare (strict_types=1);
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Resources\ProductResource;
-use App\Models\PhoneModels;
-use App\Models\Product;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use App\Models\{
+    PhoneModels,
+    Product
+};
+use Illuminate\Http\{
+    JsonResponse,
+    Request
+};
+use App\Http\Controllers\Controller,
+    App\Http\Resources\ProductResource;
 
+/**
+ * Class ProductController
+ * @package App\Http\Controllers\Api
+ */
 class ProductController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function fetch(Request $request): JsonResponse
     {
         $productBuilder = Product::query();
@@ -40,6 +52,17 @@ class ProductController extends Controller
 
         return $this->successResponse(
             $this->transformDataForResponse(
-                ProductResource::collection($productBuilder->paginate(20))), 'success');
+                ProductResource::collection($productBuilder->get())), 'success');
+    }
+
+    /**
+     * @param Product $product
+     * @return JsonResponse
+     */
+    public function show(Product $product): JsonResponse
+    {
+        return $this->successResponse(
+            $this->transformDataForResponse(
+                new ProductResource($product)), 'success');
     }
 }

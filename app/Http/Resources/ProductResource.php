@@ -22,7 +22,9 @@ class ProductResource extends JsonResource
             'name'        => $this->getAttribute('name'),
             'description' => $this->getAttribute('description'),
             'image'       => asset($this->getAttribute('picture')),
-            'price'       => $this->getAttribute('price')
+            'price'       => $this->getAttribute('price'),
+            'count'       => 1,
+            'isAddedToCart' => false
         ];
     }
 }

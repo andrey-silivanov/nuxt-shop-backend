@@ -27,16 +27,18 @@ class ImportService
         $result = [];
         if (($handle = fopen($filePath, "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 10000, ";")) !== FALSE) {
+               // dd($data);
                 if ($row === 1) {
                     $keys = $data;
                     array_pop($keys);
-                    // dd($keys);
+                     //dd($keys);
                 } else {
-                   // dd($data);
+                    //array_pop($data);
+                    //dd($data);
                   //  try {
                         $result = array_combine($keys, $data);
-                      //  dd($result["﻿Артикул"]);
-
+                        //if ($result['Материал'] == 'Силикон') dd($result);
+                        dd($result);
                         $brand = $result['Совместимость с телефоном'];
                         $model = $result['Модель телефона'];
                         $color = $result['Цвет'];
