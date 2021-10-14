@@ -22,7 +22,7 @@ trait JsonResponseTrait
      */
     public function transformDataForResponse(JsonResource $resource, $data = [], $key = null): array
     {
-        if (is_null($resource->resource)) return [];
+        if (null === $resource->resource) return [];
         $resourceData = $resource->response()->getData();
         //dd(collect($resource->response()->getData()->data)->flatten()->toArray());
         //if ($resource->resource instanceof Model) return $data = collect($resourceData->data)->toArray();

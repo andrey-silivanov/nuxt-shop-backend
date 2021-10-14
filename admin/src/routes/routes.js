@@ -13,6 +13,9 @@ import ProductsShow from '@/pages/Products/Show'
 import NotFound from '@/pages/Errors/NotFound'
 import Forbidden from '@/pages/Errors/Forbidden'
 
+import Test from '@/pages/Test/Index'
+import Test2 from '@/pages/Test2/Index'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -50,6 +53,16 @@ const routes = [
                 path: 'products/:id',
                 name: 'Products Show',
                 component: ProductsShow
+            },
+            {
+                path: 'test',
+                name: 'Test',
+                component: Test
+            },
+            {
+                path: 'test2',
+                name: 'Test2',
+                component: Test2
             }
         ]
     },

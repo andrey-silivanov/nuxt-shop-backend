@@ -30,12 +30,11 @@ Vue.axios.interceptors.response.use(response => response,
             Vue.auth.logout({
                 success() {
                     window.localStorage.removeItem('userData');
-                },
-                redirect: '/login',
+                }, redirect: '/auth/login',
             });
         }
-        if(error.response.status === 404) {
-            Vue.router.push({ name: '404'})
+        if (error.response.status === 404) {
+            Vue.router.push({name: '404'})
         }
         return Promise.reject(error);
     });
@@ -96,6 +95,7 @@ new Vue({
 })
 
 import Echo from 'laravel-echo'
+
 window.io = require('socket.io-client');
 
 // window.Pusher = require('pusher-js');

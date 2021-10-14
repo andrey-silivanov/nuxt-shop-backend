@@ -51,18 +51,6 @@
                     key: 'name',
                     order: true
                 },
-                {
-                    name: 'Test',
-                    key: 'test'
-                },
-                {
-                    name: 'Test1',
-                    key: 'test1'
-                },
-                {
-                    name: 'Test2',
-                    key: 'test2'
-                }
             ]
         }),
         created() {

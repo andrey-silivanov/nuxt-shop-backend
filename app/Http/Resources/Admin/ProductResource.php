@@ -28,7 +28,7 @@ class ProductResource extends JsonResource
             'description' => $this->getAttribute('description'),
             'picture'     => $this->getAttribute('picture'),
             'sku'         => $this->getAttribute('sku'),
-            'color'       => $this->color->getAttribute('name'),
+            'color'       => ($this->color) ? $this->color->name : '',
             'price'       => $this->getAttribute('price'),
             'brand'       => $this->brand->getAttribute('name'),
             'phoneModel'  => $this->phoneModel->getAttribute('name'),

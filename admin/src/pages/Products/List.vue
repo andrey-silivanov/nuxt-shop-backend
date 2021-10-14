@@ -92,7 +92,6 @@
                 total: 0
             },
             queryParams: {
-                page: 1,
                 categoryId: '',
                 phoneModelId: '',
                 search: ''
@@ -105,8 +104,8 @@
             this.getCategory();
         },
         methods: {
-            getProducts(page = 1) {
-                this.$http.get(`/products`, {
+            getProducts(page) {
+                this.$http.get(`/products?page=${page}`, {
                     params: this.queryParams
                 })
                     .then(response => {

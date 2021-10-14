@@ -30,7 +30,7 @@ Route::group([
         'uses' => 'ProductController@show'
     ]);
     Route::get('/categories', [
-        'as' => '.categories',
+        'as'   => '.categories',
         'uses' => 'CategoryController@fetch'
     ]);
     Route::get('/brands', [
@@ -42,12 +42,16 @@ Route::group([
         'uses' => 'PhoneModelController@fetch'
     ]);
     Route::get('/colors', [
-        'as' => '.colors',
+        'as'   => '.colors',
         'uses' => 'ColorController@fetch'
     ]);
     Route::get('/tags', [
-        'as' => '.tags',
+        'as'   => '.tags',
         'uses' => 'TagController@fetch'
+    ]);
+    Route::post('/checkout', [
+        'as'   => '.checkout',
+        'uses' => 'OrderController@store'
     ]);
 });
 
